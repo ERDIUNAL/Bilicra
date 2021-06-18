@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bilicra.Infrastructure.Domain\Bilicra.Infrastructure.Domain.csproj" />
+    <ProjectReference Include="..\Bilicra.Persistence.Domain\Bilicra.Persistence.Domain.csproj" />
+    <ProjectReference Include="..\Bilicra.Persistence.Services\Bilicra.Persistence.Services.csproj" />
+  </ItemGroup>
+
+</Project>
