@@ -24,14 +24,19 @@ namespace Bilicra.API.Processes
             return ApiService.GetProductCatalog(Code);
         }
 
-        public void SaveProductCatalog(ProductCatolog productCatolog)
+        public int SaveProductCatalog(ProductCatolog productCatolog)
         {
-            ApiService.SaveProductCatalog(productCatolog);
+            return ApiService.SaveProductCatalog(productCatolog);
         }
 
-        public void DeleteProductCatalog(int Id)
+        public int DeleteProductCatalog(int Id)
         {
-            ApiService.DeleteProductCatalog(Id);
+            return ApiService.DeleteProductCatalog(Id);
+        }
+
+        public byte[] GetProductCatalogsAsExcel(List<ProductCatolog> pruductCatalogs)
+        {
+            return ApiService.GetProductCatalogsAsExcel(pruductCatalogs);
         }
     }
 }

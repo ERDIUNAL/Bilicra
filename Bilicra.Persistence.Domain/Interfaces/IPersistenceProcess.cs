@@ -8,11 +8,10 @@ namespace Bilicra.Persistence.Domain.Interfaces
     public interface IPersistenceProcess
     {
         void EstablishConnection(string server, string database, string username, string password);
-
         ProductCatolog GetProductCatalog(int Id);
         ProductCatolog GetProductCatalog(string Code);
         List<ProductCatolog> GetProductCatalogs();
-        void SaveProductCatalog(ProductCatolog productCatolog);
-        void DeleteProductCatalog(int Id);
+        int SaveProductCatalog(ProductCatolog productCatolog);
+        int DeleteProductCatalog(int Id);
     }
 }

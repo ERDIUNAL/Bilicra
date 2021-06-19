@@ -1,4 +1,5 @@
-﻿using Bilicra.API.Domain.Models;
+﻿using Bilicra.API.Domain.Interfaces;
+using Bilicra.API.Domain.Models;
 using Bilicra.API.Processes;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Http;
@@ -16,44 +17,25 @@ namespace Bilicra.API.Application.Controllers
     [ApiController]
     public class ProductCatalogController : ControllerBase
     {
+        private readonly IApiProcess _apiProcess;
+
+        public ProductCatalogController(IApiProcess apiProcess)
+        {
+            _apiProcess = apiProcess;
+        }
+
         [HttpGet]
         [Route("GetProductCatalogs")]
         public List<ProductCatolog> GetProductCatalogs()
         {
-            return new ApiProcess().GetProductCatalogs();
+            return _apiProcess.GetProductCatalogs();
         }
 
         [HttpGet]
         [Route("GetProductCatalogsAsExcel")]
         public IActionResult GetProductCatalogsAsExcel()
         {
-            byte[] excelFile;
-
-            var pruductCatalogs = new ApiProcess().GetProductCatalogs();
-
-            using (var workbook = new XLWorkbook())
-            {
-                var worksheet = workbook.Worksheets.Add("Sayfa 1");
-
-                worksheet.Cell(1, 1).SetValue("Id");
-                worksheet.Cell(1, 2).SetValue("Code");
-                worksheet.Cell(1, 3).SetValue("Name");
-                worksheet.Cell(1, 4).SetValue("Price");
-                worksheet.Cell(1, 5).SetValue("LastUpdated");
-
-                worksheet.Row(1).CellsUsed().Style.Font.SetBold();
-                worksheet.Row(1).CellsUsed().Style.Font.SetFontSize(12);
-                worksheet.Row(1).CellsUsed().Style.Fill.SetBackgroundColor(XLColor.LightGray);
-
-                worksheet.Cell(2, 1).InsertData(pruductCatalogs);
-
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    workbook.SaveAs(memoryStream);
-
-                    excelFile = memoryStream.ToArray();
-                }
-            }
+            var excelFile = _apiProcess.GetProductCatalogsAsExcel(_apiProcess.GetProductCatalogs());
 
             return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
@@ -73,16 +55,16 @@ namespace Bilicra.API.Application.Controllers
         }
 
         [HttpPost]
-        [Route("SaveProductCatalog")]
-        public IActionResult SaveProductCatalog([FromBody] ProductCatolog productCatolog)
+        [Route("CreateProductCatalog")]
+        public IActionResult CreateProductCatalog([FromBody] ProductCatolog productCatolog)
         {
             try
             {
                 productCatolog.LastUpdated = DateTime.Now;
 
-                new ApiProcess().SaveProductCatalog(productCatolog);
+                var affectedRowCount = new ApiProcess().SaveProductCatalog(productCatolog);
 
-                return Ok();
+                return Ok(affectedRowCount.ToString() + (affectedRowCount > 1 ? " rows " : " row ") + "affected");
             }
             catch (Exception ex)
             {
@@ -90,11 +72,38 @@ namespace Bilicra.API.Application.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("DeleteProductCatalog")]
-        public void DeleteProductCatalog(int Id)
+        [HttpPut]
+        [Route("UpdateProductCatalog")]
+        public IActionResult UpdateProductCatalog([FromBody] ProductCatolog productCatolog)
         {
-            new ApiProcess().DeleteProductCatalog(Id);
+            try
+            {
+                productCatolog.LastUpdated = DateTime.Now;
+
+                var affectedRowCount = new ApiProcess().SaveProductCatalog(productCatolog);
+
+                return Ok(affectedRowCount.ToString() + (affectedRowCount > 1 ? " rows " : " row ") + "affected");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteProductCatalog")]
+        public IActionResult DeleteProductCatalog(int Id)
+        {
+            try
+            {
+                var affectedRowCount = new ApiProcess().DeleteProductCatalog(Id);
+
+                return Ok(affectedRowCount.ToString() + (affectedRowCount > 1 ? " rows " : " row ") + "affected");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
         }
     }
 }

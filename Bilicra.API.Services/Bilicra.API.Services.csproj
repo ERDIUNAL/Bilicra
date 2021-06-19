@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.95.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Bilicra.API.Domain\Bilicra.API.Domain.csproj" />
     <ProjectReference Include="..\Bilicra.Infrastructure.Processes\Bilicra.Infrastructure.Processes.csproj" />
     <ProjectReference Include="..\Bilicra.Persistence.Processes\Bilicra.Persistence.Processes.csproj" />

@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bilicra.API.Application\Bilicra.API.Application.csproj" />
+    <ProjectReference Include="..\Bilicra.API.Domain\Bilicra.API.Domain.csproj" />
+    <ProjectReference Include="..\Bilicra.API.Services\Bilicra.API.Services.csproj" />
   </ItemGroup>
 
 </Project>

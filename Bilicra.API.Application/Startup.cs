@@ -1,3 +1,5 @@
+using Bilicra.API.Domain.Interfaces;
+using Bilicra.API.Processes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +29,8 @@ namespace Bilicra.API.Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSingleton<IApiProcess, ApiProcess>();
 
             services.AddSwaggerGen(c =>
             {

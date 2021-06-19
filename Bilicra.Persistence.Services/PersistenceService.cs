@@ -91,14 +91,14 @@ namespace Bilicra.Persistence.Services
             }
         }
 
-        public static void SqlExecute(SqlCommand sqlCommand)
+        public static int SqlExecute(SqlCommand sqlCommand)
         {
             if (sqlCommand.Connection.State == ConnectionState.Closed)
             {
                 sqlCommand.Connection.Open();
             }
 
-            sqlCommand.ExecuteNonQuery();
+            return sqlCommand.ExecuteNonQuery();
         }
 
         public static object GetValue(SqlCommand sqlCommand)

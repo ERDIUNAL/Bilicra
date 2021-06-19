@@ -10,7 +10,8 @@ namespace Bilicra.API.Domain.Interfaces
         List<ProductCatolog> GetProductCatalogs();
         ProductCatolog GetProductCatalog(int Id);
         ProductCatolog GetProductCatalog(string Code);
-        void SaveProductCatalog(ProductCatolog productCatolog);
-        void DeleteProductCatalog(int Id);
+        int SaveProductCatalog(ProductCatolog productCatolog);
+        int DeleteProductCatalog(int Id);
+        public byte[] GetProductCatalogsAsExcel(List<ProductCatolog> pruductCatalogs);
     }
 }

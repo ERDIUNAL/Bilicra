@@ -92,7 +92,7 @@ namespace Bilicra.Persistence.Processes
             return PersistenceService.Get<ProductCatolog>(command);
         }
 
-        public void SaveProductCatalog(ProductCatolog productCatolog)
+        public int SaveProductCatalog(ProductCatolog productCatolog)
         {
             EstablishConnection("localhost", "dbBilicra", "sa", "sapwd");
 
@@ -107,16 +107,16 @@ namespace Bilicra.Persistence.Processes
                     productCatolog.Code, productCatolog.Name, productCatolog.Photo ?? "", productCatolog.Price, productCatolog.LastUpdated);
             }
 
-            PersistenceService.SqlExecute(command);
+            return PersistenceService.SqlExecute(command);
         }
 
-        public void DeleteProductCatalog(int Id)
+        public int DeleteProductCatalog(int Id)
         {
             EstablishConnection("localhost", "dbBilicra", "sa", "sapwd");
 
             CreateCommand("delete from ProductCatalogs where Id=@p1", Id);
 
-            PersistenceService.SqlExecute(command);
+            return PersistenceService.SqlExecute(command);
         }
     }
 }
